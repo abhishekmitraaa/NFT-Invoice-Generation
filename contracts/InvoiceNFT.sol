@@ -5,21 +5,17 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract InvoiceNFT is ERC721, Ownable {
-    uint256 public nextTokenId;
-    mapping(uint256 => string) public invoiceHashes;
+    uint256 private _tokenIdCounter;
 
-    constructor()
-        ERC721("Invoice NFT", "INVOICE")
-        Ownable(msg.sender)
-    {}
+    constructor() ERC721("InvoiceNFT", "INV") Ownable(msg.sender) {}
 
     function mintInvoiceNFT(
         address merchant,
         string memory invoiceHash
-    ) external onlyOwner returns (uint256) {
-        uint256 tokenId = nextTokenId++;
-        _mint(merchant, tokenId);
-        invoiceHashes[tokenId] = invoiceHash;
-        return tokenId;
+    ) public returns (uint256) {
+        uint256 tokenId = _tokenIdCounter;
+        _safeMint(merchant, tokenId);
+        _tokenIdCounter++;
+        return tokenId; // 🔴 THIS IS KEY
     }
 }

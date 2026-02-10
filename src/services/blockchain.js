@@ -56,6 +56,7 @@ const contract = new ethers.Contract(
 export async function mintInvoiceNFT(invoiceHash) {
   const merchantAddress = await wallet.getAddress();
 
+  // Call contract (this returns tokenId)
   const tx = await contract.mintInvoiceNFT(
     merchantAddress,
     invoiceHash
@@ -63,18 +64,24 @@ export async function mintInvoiceNFT(invoiceHash) {
 
   const receipt = await tx.wait();
 
-  // ERC721 Transfer event → tokenId
-  const transferEvent = receipt.logs
-    .map(log => {
-      try { return contract.interface.parseLog(log); }
-      catch { return null; }
-    })
-    .find(e => e && e.name === "Transfer");
+  // ethers v6: read return value from transaction
+  const result = await provider.call({
+    to: receipt.to,
+    data: tx.data,
+  });
+
+  const [tokenId] = contract.interface.decodeFunctionResult(
+    "mintInvoiceNFT",
+    result
+  );
 
   return {
-    tokenId: transferEvent.args.tokenId.toString(),
+    tokenId: tokenId.toString(),
     txHash: receipt.hash,
   };
 }
+
+
+
 
 
