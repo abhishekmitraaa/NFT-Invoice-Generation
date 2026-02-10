@@ -1,8 +1,6 @@
 import crypto from "crypto";
 
-/**
- * Converts invoice JSON into a SHA-256 hash
- */
+
 export function hashInvoice(invoice) {
   const invoiceString = JSON.stringify(invoice);
 

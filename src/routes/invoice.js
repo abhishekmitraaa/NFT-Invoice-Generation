@@ -10,10 +10,10 @@ router.post("/invoice", async (req, res) => {
   try {
     const invoice = req.body;
 
-    // 1. hash invoice
+    
     const invoiceHash = hashInvoice(invoice);
 
-    // 2. CHECK FOR DUPLICATE (STEP 4.9)
+    
     const existing = await Invoice.findOne({
       $or: [
         { invoiceId: invoice.invoiceId },
