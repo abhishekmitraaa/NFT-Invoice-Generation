@@ -159,6 +159,20 @@ await contract.invoices(TOKEN_ID);
 
 ---
 
+---
+Terminal Code
+
+```bash
+
+Invoke-RestMethod `
+  -Uri "http://localhost:4000/api/invoice" `
+  -Method POST `
+  -Headers @{ "Content-Type" = "application/json" } `
+  -Body '{"invoiceId":"INV-NEW-002","amount":2500,"generatorName":"Demo Store","billedTo":"Test User","date":"2026-02-18"}' |
+ConvertTo-Json -Depth 5
+```
+---
+
 ## 👨‍💻 Author
 
-Invoice NFT Backend – Web3 Invoice Verification System
+Abhishek Mitra
