@@ -31,7 +31,7 @@ router.post("/invoice", async (req, res) => {
     }
 
     // 3. mint NFT
-    const { tokenId, txHash } = await mintInvoiceNFT(invoiceHash);
+    const { tokenId, txHash } = await mintInvoiceNFT(invoice , invoiceHash);
 
     // 4. save to DB
     await Invoice.create({

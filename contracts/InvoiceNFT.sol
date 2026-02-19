@@ -10,12 +10,44 @@ contract InvoiceNFT is ERC721, Ownable {
     constructor() ERC721("InvoiceNFT", "INV") Ownable(msg.sender) {}
 
     function mintInvoiceNFT(
-        address merchant,
-        string memory invoiceHash
-    ) public returns (uint256) {
-        uint256 tokenId = _tokenIdCounter;
-        _safeMint(merchant, tokenId);
-        _tokenIdCounter++;
-        return tokenId; // 🔴 THIS IS KEY
-    }
+    address merchant,
+    string memory invoiceNumber,
+    uint256 amount,
+    string memory generatorName,
+    string memory billedTo,
+    string memory date,
+    string memory invoiceHash
+) public returns (uint256) {
+
+    uint256 tokenId = _tokenIdCounter;
+
+    _safeMint(merchant, tokenId);
+
+    invoices[tokenId] = InvoiceData(
+        invoiceNumber,
+        amount,
+        generatorName,
+        billedTo,
+        date,
+        invoiceHash
+    );
+
+    _tokenIdCounter++;
+    return tokenId;
+}
+
+
+
+struct InvoiceData {
+    string invoiceNumber;
+    uint256 amount;
+    string generatorName;
+    string billedTo;
+    string date;
+    string invoiceHash;
+}
+
+mapping(uint256 => InvoiceData) public invoices;
+
+
 }

@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+
 const invoiceSchema = new mongoose.Schema({
   invoiceId: { type: String, required: true, unique: true },
   invoiceHash: { type: String, required: true, unique: true },
